@@ -5,7 +5,10 @@ import { sortBy, take } from "lodash";
 import {
   getDistanceFromEarth,
   getSatellitePositionAtCurrentTime,
+  scaleVector,
 } from "../calcUtils";
+import { Vector3 } from "three";
+import { useSatelliteStore } from "../store";
 
 const exclude = new Set(["TBA - TO BE ASSIGNED"]);
 
@@ -19,6 +22,7 @@ export function SatelliteList({
   onClickSatellite,
   satelliteData,
 }: SatelliteListProps) {
+  const {setCameraPosition} = useSatelliteStore()
   const [search, setSearch] = useState("");
 
   const filteredSatellites = take(
@@ -40,6 +44,17 @@ export function SatelliteList({
     ),
     100,
   );
+
+  const onSelectSatellite = (satellite: ISatellite) => {
+    
+    onClickSatellite(satellite);
+    const positionAndVelocity = getSatellitePositionAtCurrentTime(satellite);
+    if (positionAndVelocity) {
+      const { x, y, z } = positionAndVelocity.position;
+      const vector = new Vector3(x, y, z);
+      setCameraPosition(scaleVector(vector));
+    }
+  };
 
   return (
     <Box sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
@@ -66,7 +81,7 @@ export function SatelliteList({
               cursor: "pointer",
               padding: "2px 5px",
             }}
-            onClick={() => onClickSatellite(satellite)}
+            onClick={() => onSelectSatellite(satellite)}
           >
             <Box
               sx={{

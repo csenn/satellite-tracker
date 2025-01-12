@@ -1,4 +1,4 @@
-import { EciVec3, propagate, SatRec, twoline2satrec } from "satellite.js";
+import { degreesLat, degreesLong, eciToEcf, eciToGeodetic, EciVec3, gstime, propagate, SatRec, twoline2satrec } from "satellite.js";
 import { ISatellite } from "./getSatelliteLocations";
 import { Vector3 } from "three";
 
@@ -85,3 +85,36 @@ export const scaleVector = (
   );
   return direction.multiplyScalar(distance + amount);
 };
+
+
+
+export function getSatelliteLatLonAlt(satellite: ISatellite, time = new Date()) {
+  // Parse the TLE data into a satellite record
+  const satrec = twoline2satrec(satellite.TLE_LINE1, satellite.TLE_LINE2);
+
+  // Get the satellite's position and velocity at the given time
+  const positionAndVelocity = propagate(satrec, time);
+
+  // Extract the position (ECI)
+  const positionEci = positionAndVelocity.position;
+
+  if (typeof positionEci !== "object") {
+    throw new Error("Unable to calculate satellite position.");
+  }
+
+  // Get GMST (Greenwich Mean Sidereal Time) for the given time
+  const gmst = gstime(time);
+
+  // Convert ECI to ECEF
+  // const positionEcf = eciToEcf(positionEci, gmst);
+
+  // Convert ECEF to Geodetic Coordinates (lat, lon, alt)
+  const geodetic = eciToGeodetic(positionEci, gmst);
+
+  // Convert latitude and longitude from radians to degrees
+  const latitude = degreesLat(geodetic.latitude);
+  const longitude = degreesLong(geodetic.longitude);
+  const altitude = geodetic.height; // Convert km to meters if needed
+
+  return { latitude, longitude, altitude };
+}
