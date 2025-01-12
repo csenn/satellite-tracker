@@ -59,7 +59,7 @@ export function SatelliteList({
         </Box>
       </Box>
       <Box sx={{ flexGrow: 1, overflowY: "scroll" }}>
-        {filteredSatellites.map((satellite, i) => (
+        {filteredSatellites.map((satellite) => (
           <Box
             sx={{
               borderBottom: "1px solid rgb(230,230,230)",

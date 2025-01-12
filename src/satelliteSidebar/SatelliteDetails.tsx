@@ -5,6 +5,7 @@ import { Vector3 } from "three";
 import {
   getHoursCircumventEarth,
   getSatellitePositionAtCurrentTime,
+  scaleVector,
 } from "../calcUtils";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import CenterFocusWeakIcon from "@mui/icons-material/CenterFocusWeak";
@@ -18,19 +19,18 @@ export function SatelliteDetails({
   selectedSatellite,
   onClickSatellite,
 }: SatelliteDetailsProps) {
-  const { setPosition } = useSatelliteStore();
+  const { setCameraPosition } = useSatelliteStore();
 
   const onClick = () => {
     const positionAndVelocity =
       getSatellitePositionAtCurrentTime(selectedSatellite);
-    const pos = positionAndVelocity.position;
-    if (!pos) return;
-    const original = new Vector3(pos.x, pos.y, pos.z);
 
-    const direction = original.normalize();
-    const distance = Math.sqrt(pos.x * pos.x + pos.y * pos.y + pos.z * pos.z);
-    const newPosition = direction.multiplyScalar(distance + 1000);
-    setPosition(newPosition);
+    if (!positionAndVelocity) return;
+
+    const { position } = positionAndVelocity;
+    const original = new Vector3(position.x, position.y, position.z);
+
+    setCameraPosition(scaleVector(original));
   };
 
   return (
@@ -42,7 +42,6 @@ export function SatelliteDetails({
           justifyContent: "space-between",
           padding: "5px",
           borderBottom: "1px solid rgb(230,230,230)",
-          
         }}
       >
         <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -70,11 +69,11 @@ export function SatelliteDetails({
             </Box>
           </Box>
         </Box>
-          <Box onClick={onClick} sx={{ cursor: "pointer", marginTop: "5px" }}>
-            <Tooltip title="Zoom To Satellite Reference">
-              <CenterFocusWeakIcon sx={{ fontSize: "18px" }} />
-            </Tooltip>
-          </Box>
+        <Box onClick={onClick} sx={{ cursor: "pointer", marginTop: "5px" }}>
+          <Tooltip title="Zoom To Satellite Reference">
+            <CenterFocusWeakIcon sx={{ fontSize: "18px" }} />
+          </Tooltip>
+        </Box>
       </Box>
 
       <Box sx={{ flexGrow: 1, overflowY: "scroll" }}>

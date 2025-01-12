@@ -33,15 +33,6 @@ function App() {
           onClickSatellite={setSelectedSatellite}
           satelliteData={satelliteData}
         />
-
-        {/* <Box sx={{ padding: "10px" }}>
-          {selectedSatellite?.name}
-        </Box>
-        <Box>
-          <pre>
-            {JSON.stringify(selectedSatellite?.positionAndVelocity, null, 2)}
-          </pre>
-        </Box> */}
       </Box>
       <Box sx={{ flexGrow: 1, overflow: "hidden" }}>
         <EarthOrbit

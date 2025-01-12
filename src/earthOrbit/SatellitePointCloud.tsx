@@ -1,12 +1,15 @@
-import { useRef, useMemo, useCallback } from "react";
+import { useRef, useCallback } from "react";
 import * as THREE from "three";
-
 import { useFrame } from "@react-three/fiber";
 import { ISatellite } from "../getSatelliteLocations";
 import {
   getSatellitePosition,
   getSatellitePositionAtCurrentTime,
+  scaleVector,
 } from "../calcUtils";
+import { useSatelliteStore } from "../store";
+
+const POINT_SIZE = 50;
 
 type SatellitesPointsCloudProps = {
   onClickSatellite: (satellite: ISatellite) => void;
@@ -19,51 +22,36 @@ export function SatellitesPointsCloud({
   satelliteData,
   selectedSatellite,
 }: SatellitesPointsCloudProps) {
-  const pointsRef = useRef();
+  const pointsRef = useRef<THREE.Points>(null);
   const positionsRef = useRef(new Float32Array(satelliteData.length * 3));
   const lastUpdateTime = useRef(0);
 
-  useMemo(() => {
-    console.log("selectedSatellitesss", selectedSatellite);
-    satelliteData.forEach((satellite, i) => {
-      if (selectedSatellite) {
-        if (satellite.OBJECT_ID !== selectedSatellite.OBJECT_ID) {
-          positionsRef.current.set([0, 0, 0], i * 3);
-          return;
-        }
-      }
-      const positionAndVelocity = getSatellitePositionAtCurrentTime(satellite);
-      if (!positionAndVelocity.position) return;
-      const { x, y, z } = positionAndVelocity.position;
-      positionsRef.current.set([x, y, z], i * 3);
-    });
-
-    if (pointsRef.current) {
-      pointsRef.current.geometry.attributes.position.needsUpdate = true;
-    }
-  }, [satelliteData, selectedSatellite]);
-
+  const { setCameraPosition } = useSatelliteStore();
   useFrame(() => {
     const now = Date.now();
 
-    if (now - lastUpdateTime.current < 1000) return;
+    if (now - lastUpdateTime.current < 1000) {
+      return;
+    }
 
     lastUpdateTime.current = now;
     const currentTime = new Date();
 
     satelliteData.forEach((satellite, i) => {
-      if (selectedSatellite) {
-        if (satellite.OBJECT_ID !== selectedSatellite.OBJECT_ID) {
-          positionsRef.current.set([0, 0, 0], i * 3);
-          return;
-        }
+      if (
+        selectedSatellite &&
+        satellite.OBJECT_ID === selectedSatellite.OBJECT_ID
+      ) {
+        positionsRef.current.set([0, 0, 0], i * 3);
+        return;
       }
 
       const positionAndVelocity = getSatellitePosition(satellite, currentTime);
 
-      if (!positionAndVelocity.position) return;
-      const { x, y, z } = positionAndVelocity.position;
-      positionsRef.current.set([x, y, z], i * 3);
+      if (positionAndVelocity) {
+        const { x, y, z } = positionAndVelocity.position;
+        positionsRef.current.set([x, y, z], i * 3);
+      }
     });
 
     if (pointsRef.current) {
@@ -74,7 +62,15 @@ export function SatellitesPointsCloud({
   const onClickPoint = (event) => {
     event.stopPropagation();
     if (event.index !== undefined) {
+      const satellite = satelliteData[event.index];
       onClickSatellite(satelliteData[event.index]);
+
+      const positionAndVelocity = getSatellitePositionAtCurrentTime(satellite);
+      if (positionAndVelocity) {
+        const { x, y, z } = positionAndVelocity.position;
+        const vector = new THREE.Vector3(x, y, z);
+        setCameraPosition(scaleVector(vector));
+      }
     }
   };
 
@@ -82,18 +78,20 @@ export function SatellitesPointsCloud({
     <points
       ref={pointsRef}
       onClick={onClickPoint}
-      raycast={useCallback((raycaster, intersects) => {
-        if (pointsRef.current) {
-          const pointSize = 100; // Same as your material size
-          const threshold = pointSize / 2;
-          raycaster.params.Points.threshold = threshold;
-          THREE.Points.prototype.raycast.call(
-            pointsRef.current,
-            raycaster,
-            intersects,
-          );
-        }
-      }, [])}
+      raycast={useCallback(
+        (raycaster: THREE.Raycaster, intersects: THREE.Intersection[]) => {
+          if (pointsRef.current) {
+            const threshold = POINT_SIZE / 2;
+            raycaster.params.Points.threshold = threshold;
+            THREE.Points.prototype.raycast.call(
+              pointsRef.current,
+              raycaster,
+              intersects,
+            );
+          }
+        },
+        [],
+      )}
     >
       <bufferGeometry>
         <bufferAttribute
@@ -104,8 +102,8 @@ export function SatellitesPointsCloud({
         />
       </bufferGeometry>
       <pointsMaterial
-        size={100}
-        color="orange"
+        size={POINT_SIZE}
+        color="white"
         transparent={true}
         opacity={0.8}
         onBeforeCompile={(shader) => {
