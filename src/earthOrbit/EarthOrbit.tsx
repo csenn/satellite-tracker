@@ -30,7 +30,7 @@ export function EarthOrbit({
     <>
       <Canvas
         camera={{
-          // position: [0, 0, 10000],
+          position: [0, 0, 20000],
           fov: 75,
           far: 500000,
           // up: [0, 1, 0],
