@@ -22,7 +22,7 @@ export function SatelliteList({
   onClickSatellite,
   satelliteData,
 }: SatelliteListProps) {
-  const {setCameraPosition} = useSatelliteStore()
+  const { setCameraPosition } = useSatelliteStore();
   const [search, setSearch] = useState("");
 
   const filteredSatellites = take(
@@ -36,7 +36,8 @@ export function SatelliteList({
         }
         return (
           satellite.OBJECT_NAME.toLowerCase().includes(search.toLowerCase()) ||
-          satellite.OBJECT_ID.toLowerCase().includes(search.toLowerCase())
+          satellite.OBJECT_ID.toLowerCase().includes(search.toLowerCase()) ||
+          satellite.NORAD_CAT_ID.toLowerCase().includes(search.toLowerCase())
         );
       }),
       "OBJECT_NAME",
@@ -46,7 +47,6 @@ export function SatelliteList({
   );
 
   const onSelectSatellite = (satellite: ISatellite) => {
-    
     onClickSatellite(satellite);
     const positionAndVelocity = getSatellitePositionAtCurrentTime(satellite);
     if (positionAndVelocity) {

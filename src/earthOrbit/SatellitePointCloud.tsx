@@ -1,6 +1,6 @@
 import { useRef, useCallback } from "react";
 import * as THREE from "three";
-import { useFrame } from "@react-three/fiber";
+import { ThreeEvent, useFrame } from "@react-three/fiber";
 import { ISatellite } from "../getSatelliteLocations";
 import {
   getSatellitePosition,
@@ -59,7 +59,7 @@ export function SatellitesPointsCloud({
     }
   });
 
-  const onClickPoint = (event) => {
+  const onClickPoint = (event: ThreeEvent<MouseEvent>) => {
     event.stopPropagation();
     if (event.index !== undefined) {
       const satellite = satelliteData[event.index];

@@ -14,12 +14,13 @@ import CenterFocusWeakIcon from "@mui/icons-material/CenterFocusWeak";
 function DataLabel({ label, value }: { label: string; value: string }) {
   return (
     <Box sx={{ display: "flex", alignItems: "center", padding: "5px 0 0 5px" }}>
-    <Box sx={{ fontSize: "15px", color: "rgb(100,100,100)", marginRight: "5px" }}>
-    {label}:
+      <Box
+        sx={{ fontSize: "15px", color: "rgb(100,100,100)", marginRight: "5px" }}
+      >
+        {label}:
+      </Box>
+      <Box>{value}</Box>
     </Box>
-    <Box>{value}</Box>
-  </Box>
-
   );
 }
 
@@ -46,8 +47,8 @@ export function SatelliteDetails({
     setCameraPosition(scaleVector(original));
   };
 
-
-  const { latitude, longitude, altitude } = getSatelliteLatLonAlt(selectedSatellite);
+  const { latitude, longitude, altitude } =
+    getSatelliteLatLonAlt(selectedSatellite);
   return (
     <Box sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
       <Box
@@ -92,15 +93,39 @@ export function SatelliteDetails({
       </Box>
 
       <Box sx={{ flexGrow: 1, overflowY: "scroll" }}>
-        <DataLabel label="Orbital Period (Hours)" value={getHoursCircumventEarth(selectedSatellite).toFixed(1)} />
+        <DataLabel
+          label="Orbital Period (Hours)"
+          value={getHoursCircumventEarth(selectedSatellite).toFixed(1)}
+        />
         <DataLabel label="Latitude" value={latitude.toFixed(1)} />
         <DataLabel label="Longitude" value={longitude.toFixed(1)} />
         <DataLabel label="Altitude" value={`${altitude.toFixed(1)} km`} />
 
-          
+        <DataLabel
+          label="Temp"
+          value={`${latitude.toFixed(2)}, ${longitude.toFixed(2)}`}
+        />
+
         <Box>
-          <Box sx={{ padding: "10px 0 5px 5px", fontSize: "15px", color: "rgb(100,100,100)" }}>All API Data</Box>
-          <pre style={{ whiteSpace: "pre-wrap", backgroundColor: "rgb(240,240,240)", padding: "10px", margin: "0" }}>{JSON.stringify(selectedSatellite, null, 2)}</pre>
+          <Box
+            sx={{
+              padding: "10px 0 5px 5px",
+              fontSize: "15px",
+              color: "rgb(100,100,100)",
+            }}
+          >
+            All API Data
+          </Box>
+          <pre
+            style={{
+              whiteSpace: "pre-wrap",
+              backgroundColor: "rgb(240,240,240)",
+              padding: "10px",
+              margin: "0",
+            }}
+          >
+            {JSON.stringify(selectedSatellite, null, 2)}
+          </pre>
         </Box>
       </Box>
     </Box>

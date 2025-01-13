@@ -1,4 +1,14 @@
-import { degreesLat, degreesLong, eciToEcf, eciToGeodetic, EciVec3, gstime, propagate, SatRec, twoline2satrec } from "satellite.js";
+import {
+  degreesLat,
+  degreesLong,
+  eciToEcf,
+  eciToGeodetic,
+  EciVec3,
+  gstime,
+  propagate,
+  SatRec,
+  twoline2satrec,
+} from "satellite.js";
 import { ISatellite } from "./getSatelliteLocations";
 import { Vector3 } from "three";
 
@@ -86,9 +96,10 @@ export const scaleVector = (
   return direction.multiplyScalar(distance + amount);
 };
 
-
-
-export function getSatelliteLatLonAlt(satellite: ISatellite, time = new Date()) {
+export function getSatelliteLatLonAlt(
+  satellite: ISatellite,
+  time = new Date(),
+) {
   // Parse the TLE data into a satellite record
   const satrec = twoline2satrec(satellite.TLE_LINE1, satellite.TLE_LINE2);
 
