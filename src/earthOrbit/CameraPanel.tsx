@@ -19,10 +19,9 @@ export function CameraPanel() {
         borderRadius: "5px",
       }}
     >
-      <Button onClick={() => handleMoveCamera([20000, 0, 0])}>
-        Front View
-      </Button>
-      <Button onClick={() => handleMoveCamera([0, 20000, 0])}>Top View</Button>
+      <Button onClick={() => handleMoveCamera([20000, 0, 0])}>x-axis</Button>
+      <Button onClick={() => handleMoveCamera([0, 20000, 0])}>y-axis</Button>
+      <Button onClick={() => handleMoveCamera([0, 0, 20000])}>z-axis</Button>
     </Box>
   );
 }

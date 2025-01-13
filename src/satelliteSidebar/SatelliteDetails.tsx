@@ -11,6 +11,11 @@ import {
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import CenterFocusWeakIcon from "@mui/icons-material/CenterFocusWeak";
 
+function getXYZ(satellite: ISatellite): string {
+  const { position } = getSatellitePositionAtCurrentTime(satellite);
+  return `x: ${position.x.toFixed(2)}, y: ${position.y.toFixed(2)}, z: ${position.z.toFixed(2)}`;
+}
+
 function DataLabel({ label, value }: { label: string; value: string }) {
   return (
     <Box sx={{ display: "flex", alignItems: "center", padding: "5px 0 0 5px" }}>
@@ -105,6 +110,8 @@ export function SatelliteDetails({
           label="Temp"
           value={`${latitude.toFixed(2)}, ${longitude.toFixed(2)}`}
         />
+
+        <DataLabel label="XYZ" value={getXYZ(selectedSatellite)} />
 
         <Box>
           <Box

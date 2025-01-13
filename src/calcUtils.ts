@@ -1,7 +1,6 @@
 import {
   degreesLat,
   degreesLong,
-  eciToEcf,
   eciToGeodetic,
   EciVec3,
   gstime,
@@ -16,6 +15,26 @@ export interface IPositionAndVelocity {
   position: EciVec3<number>;
   velocity: EciVec3<number>;
 }
+
+export const convertEciVecToThreeVec = (eciVec: EciVec3<number>): Vector3 => {
+  return new Vector3(eciVec.y, eciVec.z, -eciVec.x);
+};
+
+export const convertCoordEciToThree = (
+  coords: EciVec3<number>,
+): EciVec3<number> => {
+  // return {
+  //   x: coords.x,
+  //   y: coords.z,
+  //   z: -coords.y,
+  // };
+
+  return {
+    x: coords.y, // ECI Y to three.js X
+    y: coords.z, // ECI Z to three.js Y
+    z: coords.x, // ECI X to three.js Z
+  };
+};
 
 export const getDistanceFromEarth = (
   positionAndVelocity: IPositionAndVelocity | null,
@@ -41,17 +60,22 @@ export const getSatRecPosition = (
 
   if (typeof position !== "object" || typeof velocity !== "object") return null;
 
+  // return {
+  //   position: {
+  //     x: position.x as number,
+  //     y: position.y as number,
+  //     z: position.z as number,
+  //   },
+  //   velocity: {
+  //     x: velocity.x as number,
+  //     y: velocity.y as number,
+  //     z: velocity.z as number,
+  //   },
+  // };
+
   return {
-    position: {
-      x: position.x as number,
-      y: position.y as number,
-      z: position.z as number,
-    },
-    velocity: {
-      x: velocity.x as number,
-      y: velocity.y as number,
-      z: velocity.z as number,
-    },
+    position: convertCoordEciToThree(position),
+    velocity: convertCoordEciToThree(velocity),
   };
 };
 

@@ -41,8 +41,8 @@ export function SatelliteSightLine({
     const y = EARTH_RADIUS * Math.sin(latitudeRad) * Math.cos(TILT_ANGLE);
     const z = EARTH_RADIUS * Math.cos(latitudeRad) * Math.sin(longitudeRad);
 
-    // const surfaceVector = new Vector3(x, y, z)
-    const surfaceVector = new Vector3(0, 0, 0);
+    const surfaceVector = new Vector3(x, y, z);
+    // const surfaceVector = new Vector3(0, 0, 0);
 
     setPoints([surfaceVector, satellitePosition]);
   });
