@@ -8,5 +8,5 @@ export function timeSinceLoaded(): number {
 
 // We are simulating time to be in sync with the hardcoded satellite data
 export function getSimulatedTime(): Date {
-  return new Date(TIME_ON_LOAD.getTime() + timeSinceLoaded());
+  return new Date(APP_DATE_START.getTime() + timeSinceLoaded());
 }

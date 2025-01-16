@@ -1,5 +1,5 @@
 import { Canvas } from "@react-three/fiber";
-import { ISatellite } from "../utils/loadData";
+import { ISatellite } from "../utils/getSatelliteLocations";
 import { Earth } from "./common/Earth";
 import { EarthCoords } from "./common/EarthCoords";
 import { SatellitesPointsCloud } from "./SatellitePointCloud";

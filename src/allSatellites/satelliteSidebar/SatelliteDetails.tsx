@@ -1,8 +1,8 @@
 import { Box, Tooltip } from "@mui/material";
 import { ISatellite } from "../../utils/loadData";
 import { useSatelliteStore } from "../../utils/store";
-import { Vector3 } from "three";
 import {
+  convertEciVecToThreeVec,
   getHoursCircumventEarth,
   getSatelliteLatLonAlt,
   getSatellitePositionAtCurrentTime,
@@ -38,9 +38,7 @@ export function SatelliteDetails({
     if (!positionAndVelocity) return;
 
     const { position } = positionAndVelocity;
-    const original = new Vector3(position.x, position.y, position.z);
-
-    setCameraPosition(scaleVector(original));
+    setCameraPosition(scaleVector(convertEciVecToThreeVec(position)));
   };
 
   const { latitude, longitude, altitude } = getSatelliteLatLonAlt(

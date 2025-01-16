@@ -44,20 +44,20 @@ export function SatelliteSightLine({
     const { position } = positionAndVelocity;
     const satellitePosition = convertEciVecToThreeVec(position);
 
-    const { latitude, longitude } = getSatelliteLatLonAlt(
-      selectedSatellite,
-      specificTime || getSimulatedTime(),
-    );
+    // const { latitude, longitude } = getSatelliteLatLonAlt(
+    //   selectedSatellite,
+    //   specificTime || getSimulatedTime(),
+    // );
 
-    const latitudeRad = latitude * (Math.PI / 180);
-    const longitudeRad = longitude * (Math.PI / 180);
+    // const latitudeRad = latitude * (Math.PI / 180);
+    // const longitudeRad = longitude * (Math.PI / 180);
 
-    const x = EARTH_RADIUS * Math.cos(latitudeRad) * Math.cos(longitudeRad);
-    const y = EARTH_RADIUS * Math.sin(latitudeRad) * Math.cos(TILT_ANGLE);
-    const z = EARTH_RADIUS * Math.cos(latitudeRad) * Math.sin(longitudeRad);
+    // const x = EARTH_RADIUS * Math.cos(latitudeRad) * Math.cos(longitudeRad);
+    // const y = EARTH_RADIUS * Math.sin(latitudeRad) * Math.cos(TILT_ANGLE);
+    // const z = EARTH_RADIUS * Math.cos(latitudeRad) * Math.sin(longitudeRad);
 
-    const surfaceVector = new Vector3(x, y, z);
-    // const surfaceVector = new Vector3(0, 0, 0);
+    // const surfaceVector = new Vector3(x, y, z);
+    const surfaceVector = new Vector3(0, 0, 0);
 
     setPoints([surfaceVector, satellitePosition]);
   });

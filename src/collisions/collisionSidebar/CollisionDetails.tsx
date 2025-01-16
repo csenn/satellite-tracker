@@ -40,14 +40,14 @@ export function CollisionDetails({
       </Button>
 
       <DataLabel
-        label="Collision Date"
+        label="Closest Approach Time"
         value={dayjs(selectedCollision?.collisionDate).format(
           "MM/DD/YYYY HH:mm:ss",
         )}
       />
       <DataLabel
-        label="Distance"
-        value={`${selectedCollision.distance.toFixed(3)} km`}
+        label="Closest Distance"
+        value={`${selectedCollision.distance.toFixed(4)} km`}
       />
 
       <SatelliteSummary

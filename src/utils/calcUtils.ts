@@ -112,15 +112,12 @@ export const getHoursCircumventEarth = (satellite: ISatellite) => {
   return 24 / meanMotion; // seconds
 };
 
-export const scaleVector = (
-  vector: Vector3,
-  amount: number = 1000,
-): Vector3 => {
+export const scaleVector = (vector: Vector3, amount: number = 1.5): Vector3 => {
   const direction = vector.clone().normalize();
   const distance = Math.sqrt(
     vector.x * vector.x + vector.y * vector.y + vector.z * vector.z,
   );
-  return direction.multiplyScalar(distance + amount);
+  return direction.multiplyScalar(distance * amount);
 };
 
 export function getSatelliteLatLonAlt(satellite: ISatellite, time: Date) {

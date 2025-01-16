@@ -44,7 +44,7 @@ export function Satellite({
 
   if (!satPosition) return null;
 
-  const radius = !!specificTime ? 100 : 25;
+  const radius = specificTime ? 100 : 25;
 
   return (
     <mesh position={satPosition}>
