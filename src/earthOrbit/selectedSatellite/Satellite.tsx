@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { useFrame } from "@react-three/fiber";
 import { ISatellite } from "../../getSatelliteLocations";
-import { getSatellitePositionAtCurrentTime } from "../../calcUtils";
+import { getSatellitePosition } from "../../calcUtils";
 import { Vector3 } from "three";
+import { getSimulatedTime } from "../../timeSimulator";
 
 type SatelliteProps = {
   selectedSatellite: ISatellite | null;
@@ -18,8 +19,10 @@ export function Satellite({ selectedSatellite }: SatelliteProps) {
       }
       return;
     }
-    const positionAndVelocity =
-      getSatellitePositionAtCurrentTime(selectedSatellite);
+    const positionAndVelocity = getSatellitePosition(
+      selectedSatellite,
+      getSimulatedTime(),
+    );
 
     if (!positionAndVelocity) {
       return;

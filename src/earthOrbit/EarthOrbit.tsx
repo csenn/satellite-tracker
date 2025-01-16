@@ -1,6 +1,6 @@
-import { Canvas, useLoader } from "@react-three/fiber";
+import { Canvas } from "@react-three/fiber";
 import { ISatellite } from "../getSatelliteLocations";
-import { Earth, EARTH_RADIUS } from "./Earth";
+import { Earth } from "./Earth";
 import { EarthCoords } from "./EarthCoords";
 import { SatelliteOrbit } from "./selectedSatellite/SatelliteOrbit";
 import { SatellitesPointsCloud } from "./SatellitePointCloud";
@@ -8,10 +8,7 @@ import { SatelliteSightLine } from "./selectedSatellite/SatelliteSightLine";
 import { CameraPanel } from "./CameraPanel";
 import { Satellite } from "./selectedSatellite/Satellite";
 import { CameraController } from "./CameraController";
-// import * as THREE from "three";
-// import { OrbitControls } from "@react-three/drei";
-// import { TextureLoader } from "three";
-// import EarthMapJpg from "../assets/earth-realistic-8k.webp";
+import { SatelliteGroup } from "./selectedSatellite/SatelliteGroup";
 
 // https://codesandbox.io/p/sandbox/sew669?file=%2Fsrc%2FApp.js%3A70%2C10-70%2C16
 
@@ -58,14 +55,9 @@ export function EarthOrbit({
           satelliteData={satelliteData}
           selectedSatellite={selectedSatellite}
         />
-        <SatelliteOrbit selectedSatellite={selectedSatellite} />
-        <Satellite selectedSatellite={selectedSatellite} />
-        <SatelliteSightLine selectedSatellite={selectedSatellite} />
+        <SatelliteGroup satellite={selectedSatellite} />
 
-        {/*
-         */}
         <CameraController />
-        {/* <OrbitControls /> */}
       </Canvas>
 
       <CameraPanel />

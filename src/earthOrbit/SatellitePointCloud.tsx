@@ -2,11 +2,7 @@ import { useRef, useCallback } from "react";
 import * as THREE from "three";
 import { ThreeEvent, useFrame } from "@react-three/fiber";
 import { ISatellite } from "../getSatelliteLocations";
-import {
-  getSatellitePosition,
-  getSatellitePositionAtCurrentTime,
-  scaleVector,
-} from "../calcUtils";
+import { getSatellitePositionAtCurrentTime, scaleVector } from "../calcUtils";
 import { useSatelliteStore } from "../store";
 
 const POINT_SIZE = 50;
@@ -35,7 +31,7 @@ export function SatellitesPointsCloud({
     }
 
     lastUpdateTime.current = now;
-    const currentTime = new Date();
+    // const currentTime = new Date();
 
     satelliteData.forEach((satellite, i) => {
       if (
@@ -46,8 +42,10 @@ export function SatellitesPointsCloud({
         return;
       }
 
-      const positionAndVelocity = getSatellitePosition(satellite, currentTime);
+      // const positionAndVelocity = getSatellitePosition(satellite, currentTime);
+      // Revert this
 
+      const positionAndVelocity = getSatellitePositionAtCurrentTime(satellite);
       if (positionAndVelocity) {
         const { x, y, z } = positionAndVelocity.position;
         positionsRef.current.set([x, y, z], i * 3);

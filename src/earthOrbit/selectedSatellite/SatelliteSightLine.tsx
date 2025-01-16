@@ -8,6 +8,7 @@ import { Vector3 } from "three";
 import { Line } from "@react-three/drei";
 import { useState } from "react";
 import { EARTH_RADIUS, TILT_ANGLE } from "../Earth";
+import { getSimulatedTime } from "../../timeSimulator";
 
 type SatelliteSightLineProps = {
   selectedSatellite: ISatellite | null;
@@ -32,7 +33,10 @@ export function SatelliteSightLine({
     const { position } = positionAndVelocity;
     const satellitePosition = new Vector3(position.x, position.y, position.z);
 
-    const { latitude, longitude } = getSatelliteLatLonAlt(selectedSatellite);
+    const { latitude, longitude } = getSatelliteLatLonAlt(
+      selectedSatellite,
+      getSimulatedTime(),
+    );
 
     const latitudeRad = latitude * (Math.PI / 180);
     const longitudeRad = longitude * (Math.PI / 180);

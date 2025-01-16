@@ -3,6 +3,7 @@ import { ISatellite } from "../../getSatelliteLocations";
 import { Line } from "@react-three/drei";
 import { twoline2satrec } from "satellite.js";
 import { getSatRecPosition } from "../../calcUtils";
+import { getSimulatedTime } from "../../timeSimulator";
 
 function generateOrbitPoints(satellite: ISatellite): Vector3[] {
   const points: Vector3[] = [];
@@ -19,7 +20,10 @@ function generateOrbitPoints(satellite: ISatellite): Vector3[] {
 
   // Generate points for each time step
   for (let i = 0; i <= intervalCount; i++) {
-    const satelliteDate = new Date();
+    // Revert this when need real time
+    // const satelliteDate = new Date();
+    const satelliteDate = getSimulatedTime();
+
     const time = new Date(satelliteDate.getTime() + i * timeStep * 1000);
     const positionAndVelocity = getSatRecPosition(satrec, time);
 

@@ -10,6 +10,7 @@ import {
 } from "satellite.js";
 import { ISatellite } from "./getSatelliteLocations";
 import { Vector3 } from "three";
+import { getSimulatedTime } from "./timeSimulator";
 
 export interface IPositionAndVelocity {
   position: EciVec3<number>;
@@ -99,8 +100,10 @@ export const getSatellitePositionAtEpoch = (
 export const getSatellitePositionAtCurrentTime = (
   satellite: ISatellite,
 ): IPositionAndVelocity | null => {
-  const satelliteDate = new Date();
-  return getSatellitePosition(satellite, satelliteDate);
+  const simulatedTime = getSimulatedTime();
+  return getSatellitePosition(satellite, simulatedTime);
+  // const satelliteDate = new Date();
+  // return getSatellitePosition(satellite, satelliteDate);
 };
 
 export const getHoursCircumventEarth = (satellite: ISatellite) => {
@@ -120,10 +123,7 @@ export const scaleVector = (
   return direction.multiplyScalar(distance + amount);
 };
 
-export function getSatelliteLatLonAlt(
-  satellite: ISatellite,
-  time = new Date(),
-) {
+export function getSatelliteLatLonAlt(satellite: ISatellite, time: Date) {
   // Parse the TLE data into a satellite record
   const satrec = twoline2satrec(satellite.TLE_LINE1, satellite.TLE_LINE2);
 

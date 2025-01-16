@@ -1,16 +1,21 @@
-import { EarthOrbit } from "./earthOrbit/EarthOrbit";
-import "./App.css";
-import { getSatelliteLocations, ISatellite } from "./getSatelliteLocations";
 import { Box } from "@mui/material";
-import { useMemo, useState } from "react";
-import { SatelliteSidebar } from "./satelliteSidebar/SatelliteSidebar";
+import { AllSatellites } from "./allSatellites/AllSatellites";
+import "./App.css";
+import { useState } from "react";
+import { Collisions } from "./collisions/Collisions";
+
+function Tab({label, onClick, selected}: {label: string, onClick: () => void, selected: boolean}) {
+  return (
+    <Box onClick={onClick} sx={{cursor: 'pointer', padding: '3px 5px', borderBottom: selected ? '2px solid black' : 'none', color: selected ? 'black' : 'gray'}}>
+      {label}
+    </Box>
+  )
+}
 
 function App() {
-  const [selectedSatellite, setSelectedSatellite] = useState<ISatellite | null>(
-    null,
+  const [selectedTab, setSelectedTab] = useState<"allData" | "collisions">(
+    "allData",
   );
-
-  const satelliteData = useMemo(() => getSatelliteLocations(), []);
 
   return (
     <Box
@@ -18,29 +23,25 @@ function App() {
         display: "flex",
         height: "100vh",
         width: "100vw",
-        overflow: "hidden",
+        flexDirection: "column",
+        color: "black",
       }}
     >
       <Box
         sx={{
-          width: "350px",
-          borderRight: "1px solid #ccc",
-          color: "black",
+          borderBottom: "1px solid rgb(230,230,230)",
+          padding: "10px",
+          display: 'flex',
+          gap: '10px'
         }}
       >
-        <SatelliteSidebar
-          selectedSatellite={selectedSatellite}
-          onClickSatellite={setSelectedSatellite}
-          satelliteData={satelliteData}
-        />
+          <Tab label="All Satellite Data" selected={selectedTab === "allData"} onClick={() => setSelectedTab("allData")} />
+          <Tab label="Collision Watch" selected={selectedTab === "collisions"} onClick={() => setSelectedTab("collisions")} />
+
+
       </Box>
-      <Box sx={{ flexGrow: 1, overflow: "hidden" }}>
-        <EarthOrbit
-          onClickSatellite={setSelectedSatellite}
-          selectedSatellite={selectedSatellite}
-          satelliteData={satelliteData}
-        />
-      </Box>
+      {selectedTab === "allData" && <AllSatellites />}
+      {selectedTab === "collisions" && <Collisions />}
     </Box>
   );
 }
