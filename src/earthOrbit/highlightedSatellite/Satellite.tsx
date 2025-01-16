@@ -1,9 +1,12 @@
 import { useState } from "react";
 import { useFrame } from "@react-three/fiber";
-import { ISatellite } from "../../getSatelliteLocations";
-import { getSatellitePosition } from "../../calcUtils";
+import { ISatellite } from "../../utils/loadData";
+import {
+  convertEciVecToThreeVec,
+  getSatellitePosition,
+} from "../../utils/calcUtils";
 import { Vector3 } from "three";
-import { getSimulatedTime } from "../../timeSimulator";
+import { getSimulatedTime } from "../../utils/timeSimulator";
 
 type SatelliteProps = {
   selectedSatellite: ISatellite | null;
@@ -36,14 +39,16 @@ export function Satellite({
 
     const { position } = positionAndVelocity;
 
-    setSatPosition(new Vector3(position.x, position.y, position.z));
+    setSatPosition(convertEciVecToThreeVec(position));
   });
 
   if (!satPosition) return null;
 
+  const radius = !!specificTime ? 100 : 25;
+
   return (
     <mesh position={satPosition}>
-      <sphereGeometry args={[25, 25, 25]} />
+      <sphereGeometry args={[radius, 25, 25]} />
       <meshBasicMaterial color={color} />
     </mesh>
   );

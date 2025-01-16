@@ -2,14 +2,15 @@ import { useFrame } from "@react-three/fiber";
 import {
   convertEciVecToThreeVec,
   getSatelliteLatLonAlt,
+  getSatellitePosition,
   getSatellitePositionAtCurrentTime,
-} from "../../calcUtils";
-import { ISatellite } from "../../getSatelliteLocations";
+} from "../../utils/calcUtils";
+import { ISatellite } from "../../utils/loadData";
 import { Vector3 } from "three";
 import { Line } from "@react-three/drei";
 import { useState } from "react";
 import { EARTH_RADIUS, TILT_ANGLE } from "../common/Earth";
-import { getSimulatedTime } from "../../timeSimulator";
+import { getSimulatedTime } from "../../utils/timeSimulator";
 
 type SatelliteSightLineProps = {
   selectedSatellite: ISatellite | null;
@@ -32,8 +33,10 @@ export function SatelliteSightLine({
       return;
     }
 
-    const positionAndVelocity =
-      getSatellitePositionAtCurrentTime(selectedSatellite);
+    const positionAndVelocity = getSatellitePosition(
+      selectedSatellite,
+      specificTime || getSimulatedTime(),
+    );
 
     if (!positionAndVelocity) {
       return;

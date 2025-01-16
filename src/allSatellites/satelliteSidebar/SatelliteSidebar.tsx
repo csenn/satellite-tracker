@@ -1,6 +1,6 @@
 import { SatelliteList } from "./SatelliteList";
 import { SatelliteDetails } from "./SatelliteDetails";
-import { ISatellite } from "../../getSatelliteLocations";
+import { ISatellite } from "../../utils/loadData";
 
 type SidebarProps = {
   selectedSatellite: ISatellite | null;

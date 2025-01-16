@@ -1,36 +1,43 @@
+import {
+  getCollisions,
+  getSatelliteLocations,
+  ICollision,
+} from "../utils/loadData";
 import { Box } from "@mui/material";
 import { useMemo, useState } from "react";
+import { CollisionList } from "./CollisionList";
+import { EarthOrbit } from "../earthOrbit/EarthOrbit";
 import { EarthOrbitCollision } from "../earthOrbit/EarthOrbitCollision";
-import { CollisionSidebar } from "./collisionSidebar/CollisionSidebar";
-import { getCollisions, ICollision, ISatellite } from "../utils/loadData";
 
-export function Collisions({ satelliteData }: { satelliteData: ISatellite[] }) {
+export function Collisions() {
   const [selectedCollision, setSelectedCollision] = useState<ICollision | null>(
     null,
   );
 
-  const satelliteLookup = useMemo(() => {
-    if (!satelliteData) {
-      return {};
-    }
-    return satelliteData.reduce(
-      (acc, sat) => {
-        acc[sat.OBJECT_ID] = sat;
-        return acc;
-      },
-      {} as Record<string, ISatellite>,
-    );
-  }, [satelliteData]);
-
   const collisionData = useMemo(() => getCollisions(), []);
+  const satelliteData = useMemo(() => getSatelliteLocations(), []);
 
   const satelliteOne = useMemo(() => {
-    return satelliteLookup[selectedCollision?.sat1 || ""] || null;
-  }, [satelliteLookup, selectedCollision]);
+    if (!satelliteData) {
+      return null;
+    }
+
+    return (
+      satelliteData.find((sat) => sat.OBJECT_ID === selectedCollision?.sat1) ||
+      null
+    );
+  }, [satelliteData, selectedCollision]);
 
   const satelliteTwo = useMemo(() => {
-    return satelliteLookup[selectedCollision?.sat2 || ""] || null;
-  }, [satelliteLookup, selectedCollision]);
+    if (!satelliteData) {
+      return null;
+    }
+
+    return (
+      satelliteData.find((sat) => sat.OBJECT_ID === selectedCollision?.sat2) ||
+      null
+    );
+  }, [satelliteData, selectedCollision]);
 
   return (
     <Box
@@ -48,18 +55,19 @@ export function Collisions({ satelliteData }: { satelliteData: ISatellite[] }) {
           color: "black",
         }}
       >
-        <CollisionSidebar
+        <CollisionList
           selectedCollision={selectedCollision}
           onClickCollision={setSelectedCollision}
           collisionData={collisionData}
-          satelliteLookup={satelliteLookup}
         />
       </Box>
       <Box sx={{ flexGrow: 1, overflow: "hidden" }}>
         <EarthOrbitCollision
           satelliteOne={satelliteOne}
           satelliteTwo={satelliteTwo}
-          specificTime={selectedCollision?.collisionDate}
+          // onClickSatellite={setSelectedSatellite}
+          // selectedSatellite={selectedSatellite}
+          // satelliteData={satelliteData}
         />
       </Box>
     </Box>

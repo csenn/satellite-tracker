@@ -3,7 +3,7 @@ import { AllSatellites } from "./allSatellites/AllSatellites";
 import "./App.css";
 import { useMemo, useState } from "react";
 import { Collisions } from "./collisions/Collisions";
-import { getSatelliteLocations } from "./getSatelliteLocations";
+import { getSatelliteLocations } from "./utils/loadData";
 
 function Tab({
   label,

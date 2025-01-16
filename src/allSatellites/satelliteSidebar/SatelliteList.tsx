@@ -1,4 +1,4 @@
-import { Box, Button, TextField } from "@mui/material";
+import { Box, TextField } from "@mui/material";
 
 import { useState } from "react";
 import { sortBy, take } from "lodash";
@@ -6,11 +6,11 @@ import {
   getDistanceFromEarth,
   getSatellitePositionAtCurrentTime,
   scaleVector,
-} from "../../calcUtils";
+} from "../../utils/calcUtils";
 import { Vector3 } from "three";
-import { useSatelliteStore } from "../../store";
+import { useSatelliteStore } from "../../utils/store";
 // import { detectCollisions } from "../../collision";
-import { ISatellite } from "../../getSatelliteLocations";
+import { ISatellite } from "../../utils/loadData";
 
 const exclude = new Set(["TBA - TO BE ASSIGNED"]);
 

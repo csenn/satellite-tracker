@@ -1,5 +1,5 @@
-import satelliteData from "./satellites-api.json";
-import collisions from "./collisions.json";
+import satelliteData from "./data/satellites-api.json";
+import collisions from "./data/collisions.json";
 import JulianDate from "julian-date";
 
 export interface ISatellite {
@@ -32,14 +32,16 @@ export const getSatelliteLocations = (): ISatellite[] => {
 
 export const getCollisions = (): ICollision[] => {
   return collisions.map((collision) => {
-    const jdate = new JulianDate().julian(collision[4]);
+    const firstCollision = collision.collisions[0];
+
+    const jdate = new JulianDate().julian(firstCollision.julian_date);
     return {
-      collisionDate: new Date(collision[0]),
+      collisionDate: new Date(firstCollision.date),
       colDateJulian: jdate.getDate(),
-      sat1: String(collision[1]),
-      sat2: String(collision[2]),
-      distance: Number(collision[3]),
-      julianDate: Number(collision[4]),
+      sat1: String(collision.sat_1_id),
+      sat2: String(collision.sat_2_id),
+      distance: Number(firstCollision.min_distance),
+      julianDate: Number(firstCollision.julian_date),
     };
   });
 };

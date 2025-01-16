@@ -1,9 +1,9 @@
 import { Vector3 } from "three";
-import { ISatellite } from "../../getSatelliteLocations";
+import { ISatellite } from "../../utils/loadData";
 import { Line } from "@react-three/drei";
 import { twoline2satrec } from "satellite.js";
-import { getSatRecPosition } from "../../calcUtils";
-import { getSimulatedTime } from "../../timeSimulator";
+import { getSatRecPosition } from "../../utils/calcUtils";
+import { getSimulatedTime } from "../../utils/timeSimulator";
 
 function generateOrbitPoints(
   satellite: ISatellite,

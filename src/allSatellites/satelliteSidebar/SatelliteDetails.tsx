@@ -1,35 +1,23 @@
 import { Box, Tooltip } from "@mui/material";
-import { ISatellite } from "../../getSatelliteLocations";
-import { useSatelliteStore } from "../../store";
+import { ISatellite } from "../../utils/loadData";
+import { useSatelliteStore } from "../../utils/store";
 import { Vector3 } from "three";
 import {
   getHoursCircumventEarth,
   getSatelliteLatLonAlt,
   getSatellitePositionAtCurrentTime,
   scaleVector,
-} from "../../calcUtils";
+} from "../../utils/calcUtils";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import CenterFocusWeakIcon from "@mui/icons-material/CenterFocusWeak";
-import { getSimulatedTime } from "../../timeSimulator";
+import { getSimulatedTime } from "../../utils/timeSimulator";
+import { DataLabel } from "../../common/DataLabel";
 
 function getXYZ(satellite: ISatellite): string {
   const positionAndVelocity = getSatellitePositionAtCurrentTime(satellite);
   if (!positionAndVelocity) return "";
   const { position } = positionAndVelocity;
   return `x: ${position.x.toFixed(2)}, y: ${position.y.toFixed(2)}, z: ${position.z.toFixed(2)}`;
-}
-
-function DataLabel({ label, value }: { label: string; value: string }) {
-  return (
-    <Box sx={{ display: "flex", alignItems: "center", padding: "5px 0 0 5px" }}>
-      <Box
-        sx={{ fontSize: "15px", color: "rgb(100,100,100)", marginRight: "5px" }}
-      >
-        {label}:
-      </Box>
-      <Box>{value}</Box>
-    </Box>
-  );
 }
 
 type SatelliteDetailsProps = {

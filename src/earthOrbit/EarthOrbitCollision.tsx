@@ -1,5 +1,5 @@
 import { Canvas } from "@react-three/fiber";
-import { ISatellite } from "../getSatelliteLocations";
+import { ISatellite } from "../utils/loadData";
 import { Earth } from "./common/Earth";
 import { EarthCoords } from "./common/EarthCoords";
 import { CameraPanel } from "./CameraPanel";

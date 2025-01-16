@@ -8,7 +8,7 @@ import {
   SatRec,
   twoline2satrec,
 } from "satellite.js";
-import { ISatellite } from "./getSatelliteLocations";
+import { ISatellite } from "./loadData";
 import { Vector3 } from "three";
 import { getSimulatedTime } from "./timeSimulator";
 
@@ -18,7 +18,7 @@ export interface IPositionAndVelocity {
 }
 
 export const convertEciVecToThreeVec = (eciVec: EciVec3<number>): Vector3 => {
-  return new Vector3(eciVec.y, eciVec.z, -eciVec.x);
+  return new Vector3(eciVec.x, eciVec.y, eciVec.z);
 };
 
 export const convertCoordEciToThree = (

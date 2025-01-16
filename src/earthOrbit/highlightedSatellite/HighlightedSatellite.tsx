@@ -1,4 +1,4 @@
-import { ISatellite } from "../../getSatelliteLocations";
+import { ISatellite } from "../../utils/loadData";
 import { Satellite } from "./Satellite";
 import { SatelliteOrbit } from "./SatelliteOrbit";
 import { SatelliteSightLine } from "./SatelliteSightLine";

@@ -1,9 +1,12 @@
 import { useRef, useCallback } from "react";
 import * as THREE from "three";
 import { ThreeEvent, useFrame } from "@react-three/fiber";
-import { ISatellite } from "../getSatelliteLocations";
-import { getSatellitePositionAtCurrentTime, scaleVector } from "../calcUtils";
-import { useSatelliteStore } from "../store";
+import { ISatellite } from "../utils/loadData";
+import {
+  getSatellitePositionAtCurrentTime,
+  scaleVector,
+} from "../utils/calcUtils";
+import { useSatelliteStore } from "../utils/store";
 
 const POINT_SIZE = 50;
 

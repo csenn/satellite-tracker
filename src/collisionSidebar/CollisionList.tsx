@@ -1,13 +1,10 @@
 import { Box } from "@mui/material";
-import { ICollision, ISatellite } from "../../utils/loadData";
-import dayjs from "dayjs";
-import { SatId } from "./SatelliteId";
+import { ICollision } from "../utils/loadData";
 
 type SatelliteListProps = {
   collisionData: ICollision[];
   onClickCollision: (collision: ICollision | null) => void;
   selectedCollision: ICollision | null;
-  satelliteLookup: Record<string, ISatellite>;
 };
 
 export function CollisionList({
@@ -15,7 +12,6 @@ export function CollisionList({
   collisionData,
   onClickCollision,
   selectedCollision,
-  satelliteLookup,
   // onClickSatellite,
   // satelliteData,
 }: SatelliteListProps) {
@@ -80,29 +76,18 @@ export function CollisionList({
             }}
             onClick={() => onSelectCollision(collision)}
           >
-            <SatId
-              name={satelliteLookup[collision.sat1].OBJECT_NAME}
-              id={collision.sat1}
-            />
-            <SatId
-              name={satelliteLookup[collision.sat2].OBJECT_NAME}
-              id={collision.sat2}
-            />
-
             <Box
               sx={{
                 display: "flex",
-                paddingTop: "2px",
                 alignItems: "center",
-                color: "rgb(100,100,100)",
-                fontSize: "14px",
-                justifyContent: "space-between",
+                // justifyContent: "space-between",
               }}
             >
-              <Box>
-                {dayjs(collision?.collisionDate).format("MM/DD/YYYY HH:mm:ss")}
+              <Box>{collision.sat1} - </Box>
+              <Box>{collision.sat2}</Box>
+              <Box sx={{ marginLeft: "10px" }}>
+                {collision.distance.toFixed(3)} km
               </Box>
-              <Box>{collision.distance.toFixed(3)} km distance</Box>
             </Box>
           </Box>
         ))}

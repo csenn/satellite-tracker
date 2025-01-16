@@ -1,7 +1,6 @@
 import { sortBy } from "lodash";
 import { getSatellitePosition } from "./calcUtils";
-import { ISatellite } from "./getSatelliteLocations";
-import { TEMP_DATE } from "./earthOrbit/SatellitePointCloud";
+import { ISatellite } from "./loadData";
 import { getSimulatedTime } from "./timeSimulator";
 
 const COLLISION_DISTANCE = 5;

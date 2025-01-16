@@ -1,4 +1,4 @@
-import { ICollision, ISatellite } from "../../getSatelliteLocations";
+import { ICollision, ISatellite } from "../../utils/loadData";
 import { CollisionList } from "./CollisionList";
 import { CollisionDetails } from "./CollisionDetails";
 

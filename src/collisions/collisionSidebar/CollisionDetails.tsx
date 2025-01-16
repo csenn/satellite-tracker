@@ -1,8 +1,9 @@
 import { Box, Button } from "@mui/material";
-import { ICollision, ISatellite } from "../../getSatelliteLocations";
+import { ICollision, ISatellite } from "../../utils/loadData";
 import dayjs from "dayjs";
-import { PositionLabel } from "./PositionLabel";
 import { useMemo } from "react";
+import { SatelliteSummary } from "./SatelliteSummary";
+import { DataLabel } from "../../common/DataLabel";
 
 type CollisionDetailsProps = {
   selectedCollision: ICollision | null;
@@ -20,7 +21,7 @@ export function CollisionDetails({
   }, [satelliteLookup, selectedCollision]);
 
   const satelliteTwo = useMemo(() => {
-    return satelliteLookup[selectedCollision?.sat1 || ""] || null;
+    return satelliteLookup[selectedCollision?.sat2 || ""] || null;
   }, [satelliteLookup, selectedCollision]);
 
   if (!selectedCollision) {
@@ -29,24 +30,33 @@ export function CollisionDetails({
 
   return (
     <Box sx={{ padding: "10px" }}>
-      <Button onClick={onClearCollision}>Clear</Button>
-      <Box>
-        Date:{" "}
-        {dayjs(selectedCollision?.collisionDate).format("MM/DD/YYYY HH:mm:ss")}
-      </Box>
-      <Box>
-        Date2:{" "}
-        {dayjs(selectedCollision?.colDateJulian).format("MM/DD/YYYY HH:mm:ss")}
-      </Box>
+      <Button
+        onClick={onClearCollision}
+        size="small"
+        variant="contained"
+        color="primary"
+      >
+        Back
+      </Button>
 
-      <Box>Distance: {selectedCollision.distance.toFixed(3)} km</Box>
-      <Box>Satellite One: {selectedCollision.sat1}</Box>
-      <PositionLabel
+      <DataLabel
+        label="Collision Date"
+        value={dayjs(selectedCollision?.collisionDate).format(
+          "MM/DD/YYYY HH:mm:ss",
+        )}
+      />
+      <DataLabel
+        label="Distance"
+        value={`${selectedCollision.distance.toFixed(3)} km`}
+      />
+
+      <SatelliteSummary
+        label="Satellite One"
         satellite={satelliteOne}
         specificTime={selectedCollision.collisionDate}
       />
-      <Box>Satellite Two: {selectedCollision.sat2}</Box>
-      <PositionLabel
+      <SatelliteSummary
+        label="Satellite Two"
         satellite={satelliteTwo}
         specificTime={selectedCollision.collisionDate}
       />

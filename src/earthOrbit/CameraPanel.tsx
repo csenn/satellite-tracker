@@ -1,5 +1,5 @@
 import { Box, Button } from "@mui/material";
-import { useSatelliteStore } from "../store";
+import { useSatelliteStore } from "../utils/store";
 import { Vector3 } from "three";
 
 export function CameraPanel() {

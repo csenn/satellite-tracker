@@ -1,5 +1,5 @@
 import { EarthOrbit } from "../earthOrbit/EarthOrbit";
-import { ISatellite } from "../getSatelliteLocations";
+import { ISatellite } from "../utils/loadData";
 import { Box } from "@mui/material";
 import { useState } from "react";
 import { SatelliteSidebar } from "./satelliteSidebar/SatelliteSidebar";
