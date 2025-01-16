@@ -1,5 +1,6 @@
 import { useFrame } from "@react-three/fiber";
 import {
+  convertEciVecToThreeVec,
   getSatelliteLatLonAlt,
   getSatellitePositionAtCurrentTime,
 } from "../../calcUtils";
@@ -7,15 +8,19 @@ import { ISatellite } from "../../getSatelliteLocations";
 import { Vector3 } from "three";
 import { Line } from "@react-three/drei";
 import { useState } from "react";
-import { EARTH_RADIUS, TILT_ANGLE } from "../Earth";
+import { EARTH_RADIUS, TILT_ANGLE } from "../common/Earth";
 import { getSimulatedTime } from "../../timeSimulator";
 
 type SatelliteSightLineProps = {
   selectedSatellite: ISatellite | null;
+  color: string;
+  specificTime?: Date;
 };
 
 export function SatelliteSightLine({
   selectedSatellite,
+  color,
+  specificTime,
 }: SatelliteSightLineProps) {
   const [points, setPoints] = useState<Vector3[] | null>(null);
 
@@ -26,16 +31,19 @@ export function SatelliteSightLine({
       }
       return;
     }
+
     const positionAndVelocity =
       getSatellitePositionAtCurrentTime(selectedSatellite);
 
-    if (!positionAndVelocity) return;
+    if (!positionAndVelocity) {
+      return;
+    }
     const { position } = positionAndVelocity;
-    const satellitePosition = new Vector3(position.x, position.y, position.z);
+    const satellitePosition = convertEciVecToThreeVec(position);
 
     const { latitude, longitude } = getSatelliteLatLonAlt(
       selectedSatellite,
-      getSimulatedTime(),
+      specificTime || getSimulatedTime(),
     );
 
     const latitudeRad = latitude * (Math.PI / 180);
@@ -53,5 +61,5 @@ export function SatelliteSightLine({
 
   if (!points) return null;
 
-  return <Line points={points} color={"green"} />;
+  return <Line points={points} color={color} />;
 }

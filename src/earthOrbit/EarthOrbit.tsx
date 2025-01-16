@@ -1,14 +1,11 @@
 import { Canvas } from "@react-three/fiber";
 import { ISatellite } from "../getSatelliteLocations";
-import { Earth } from "./Earth";
-import { EarthCoords } from "./EarthCoords";
-import { SatelliteOrbit } from "./selectedSatellite/SatelliteOrbit";
+import { Earth } from "./common/Earth";
+import { EarthCoords } from "./common/EarthCoords";
 import { SatellitesPointsCloud } from "./SatellitePointCloud";
-import { SatelliteSightLine } from "./selectedSatellite/SatelliteSightLine";
 import { CameraPanel } from "./CameraPanel";
-import { Satellite } from "./selectedSatellite/Satellite";
-import { CameraController } from "./CameraController";
-import { SatelliteGroup } from "./selectedSatellite/SatelliteGroup";
+import { CameraController } from "./common/CameraController";
+import { HighlightedSatellite } from "./highlightedSatellite/HighlightedSatellite";
 
 // https://codesandbox.io/p/sandbox/sew669?file=%2Fsrc%2FApp.js%3A70%2C10-70%2C16
 
@@ -55,7 +52,7 @@ export function EarthOrbit({
           satelliteData={satelliteData}
           selectedSatellite={selectedSatellite}
         />
-        <SatelliteGroup satellite={selectedSatellite} />
+        <HighlightedSatellite satellite={selectedSatellite} />
 
         <CameraController />
       </Canvas>

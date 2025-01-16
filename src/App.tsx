@@ -1,21 +1,41 @@
 import { Box } from "@mui/material";
 import { AllSatellites } from "./allSatellites/AllSatellites";
 import "./App.css";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Collisions } from "./collisions/Collisions";
+import { getSatelliteLocations } from "./getSatelliteLocations";
 
-function Tab({label, onClick, selected}: {label: string, onClick: () => void, selected: boolean}) {
+function Tab({
+  label,
+  onClick,
+  selected,
+}: {
+  label: string;
+  onClick: () => void;
+  selected: boolean;
+}) {
   return (
-    <Box onClick={onClick} sx={{cursor: 'pointer', padding: '3px 5px', borderBottom: selected ? '2px solid black' : 'none', color: selected ? 'black' : 'gray'}}>
+    <Box
+      onClick={onClick}
+      sx={{
+        cursor: "pointer",
+        padding: "3px 5px",
+        borderBottom: selected ? "2px solid black" : "none",
+        borderColor: selected ? "primary.main" : "gray",
+        color: selected ? "primary.main" : "gray",
+      }}
+    >
       {label}
     </Box>
-  )
+  );
 }
 
 function App() {
   const [selectedTab, setSelectedTab] = useState<"allData" | "collisions">(
     "allData",
   );
+
+  const satelliteData = useMemo(() => getSatelliteLocations(), []);
 
   return (
     <Box
@@ -31,17 +51,27 @@ function App() {
         sx={{
           borderBottom: "1px solid rgb(230,230,230)",
           padding: "10px",
-          display: 'flex',
-          gap: '10px'
+          display: "flex",
+          gap: "10px",
         }}
       >
-          <Tab label="All Satellite Data" selected={selectedTab === "allData"} onClick={() => setSelectedTab("allData")} />
-          <Tab label="Collision Watch" selected={selectedTab === "collisions"} onClick={() => setSelectedTab("collisions")} />
-
-
+        <Tab
+          label="All Satellite Data"
+          selected={selectedTab === "allData"}
+          onClick={() => setSelectedTab("allData")}
+        />
+        <Tab
+          label="Collision Watch"
+          selected={selectedTab === "collisions"}
+          onClick={() => setSelectedTab("collisions")}
+        />
       </Box>
-      {selectedTab === "allData" && <AllSatellites />}
-      {selectedTab === "collisions" && <Collisions />}
+      {selectedTab === "allData" && (
+        <AllSatellites satelliteData={satelliteData} />
+      )}
+      {selectedTab === "collisions" && (
+        <Collisions satelliteData={satelliteData} />
+      )}
     </Box>
   );
 }

@@ -1,11 +1,21 @@
-import { Box, } from "@mui/material";
-import { ICollision } from "../../getSatelliteLocations";
+import { Box } from "@mui/material";
+import { ICollision, ISatellite } from "../../getSatelliteLocations";
+import dayjs from "dayjs";
 
+function SatId({ name, id }: { name: string; id: string }) {
+  return (
+    <Box sx={{ display: "flex", alignItems: "center", gap: "5px" }}>
+      <Box>{name}</Box>
+      <Box sx={{ color: "rgb(100,100,100)", fontSize: "12px" }}>[{id}]</Box>
+    </Box>
+  );
+}
 
 type SatelliteListProps = {
   collisionData: ICollision[];
   onClickCollision: (collision: ICollision | null) => void;
   selectedCollision: ICollision | null;
+  satelliteLookup: Record<string, ISatellite>;
 };
 
 export function CollisionList({
@@ -13,11 +23,11 @@ export function CollisionList({
   collisionData,
   onClickCollision,
   selectedCollision,
+  satelliteLookup,
   // onClickSatellite,
   // satelliteData,
 }: SatelliteListProps) {
   // const { setCameraPosition } = useSatelliteStore();
-
 
   // const filteredSatellites = take(
   //   sortBy(
@@ -41,7 +51,7 @@ export function CollisionList({
   // );
 
   const onSelectCollision = (collision: ICollision) => {
-    onClickCollision(collision)
+    onClickCollision(collision);
     // onClickSatellite(satellite);
     // const positionAndVelocity = getSatellitePositionAtCurrentTime(satellite);
     // if (positionAndVelocity) {
@@ -53,8 +63,6 @@ export function CollisionList({
 
   return (
     <Box sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
-
-
       {/* <Box sx={{ padding: "5px", borderBottom: "1px solid rgb(230,230,230)" }}>
         <TextField
           placeholder="Search"
@@ -80,23 +88,30 @@ export function CollisionList({
             }}
             onClick={() => onSelectCollision(collision)}
           >
+            <SatId
+              name={satelliteLookup[collision.sat1].OBJECT_NAME}
+              id={collision.sat1}
+            />
+            <SatId
+              name={satelliteLookup[collision.sat2].OBJECT_NAME}
+              id={collision.sat2}
+            />
+
             <Box
               sx={{
                 display: "flex",
+                paddingTop: "2px",
                 alignItems: "center",
-                // justifyContent: "space-between",
+                color: "rgb(100,100,100)",
+                fontSize: "14px",
+                justifyContent: "space-between",
               }}
             >
-              <Box>{collision.sat1} - </Box>
-              <Box
-              >
-                {collision.sat2}
+              <Box>
+                {dayjs(collision?.collisionDate).format("MM/DD/YYYY HH:mm:ss")}
               </Box>
-              <Box sx={{ marginLeft: "10px" }}>
-                {collision.distance.toFixed(3)} km
-              </Box>
+              <Box>{collision.distance.toFixed(3)} km distance</Box>
             </Box>
-          
           </Box>
         ))}
       </Box>

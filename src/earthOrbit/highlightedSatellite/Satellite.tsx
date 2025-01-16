@@ -7,9 +7,15 @@ import { getSimulatedTime } from "../../timeSimulator";
 
 type SatelliteProps = {
   selectedSatellite: ISatellite | null;
+  color: string;
+  specificTime?: Date;
 };
 
-export function Satellite({ selectedSatellite }: SatelliteProps) {
+export function Satellite({
+  selectedSatellite,
+  color,
+  specificTime,
+}: SatelliteProps) {
   const [satPosition, setSatPosition] = useState<Vector3 | null>(null);
 
   useFrame(() => {
@@ -21,7 +27,7 @@ export function Satellite({ selectedSatellite }: SatelliteProps) {
     }
     const positionAndVelocity = getSatellitePosition(
       selectedSatellite,
-      getSimulatedTime(),
+      specificTime || getSimulatedTime(),
     );
 
     if (!positionAndVelocity) {
@@ -38,7 +44,7 @@ export function Satellite({ selectedSatellite }: SatelliteProps) {
   return (
     <mesh position={satPosition}>
       <sphereGeometry args={[25, 25, 25]} />
-      <meshBasicMaterial color="green" />
+      <meshBasicMaterial color={color} />
     </mesh>
   );
 }

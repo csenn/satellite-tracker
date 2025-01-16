@@ -5,7 +5,10 @@ import { twoline2satrec } from "satellite.js";
 import { getSatRecPosition } from "../../calcUtils";
 import { getSimulatedTime } from "../../timeSimulator";
 
-function generateOrbitPoints(satellite: ISatellite): Vector3[] {
+function generateOrbitPoints(
+  satellite: ISatellite,
+  specificTime?: Date,
+): Vector3[] {
   const points: Vector3[] = [];
 
   // Parse satellite TLE into satrec
@@ -22,7 +25,7 @@ function generateOrbitPoints(satellite: ISatellite): Vector3[] {
   for (let i = 0; i <= intervalCount; i++) {
     // Revert this when need real time
     // const satelliteDate = new Date();
-    const satelliteDate = getSimulatedTime();
+    const satelliteDate = specificTime || getSimulatedTime();
 
     const time = new Date(satelliteDate.getTime() + i * timeStep * 1000);
     const positionAndVelocity = getSatRecPosition(satrec, time);
@@ -38,14 +41,20 @@ function generateOrbitPoints(satellite: ISatellite): Vector3[] {
 
 interface OrbitProps {
   selectedSatellite: ISatellite | null;
+  color: string;
+  specificTime?: Date;
 }
 
-export function SatelliteOrbit({ selectedSatellite }: OrbitProps) {
+export function SatelliteOrbit({
+  selectedSatellite,
+  color,
+  specificTime,
+}: OrbitProps) {
   if (!selectedSatellite) {
     return null;
   }
 
-  const points = generateOrbitPoints(selectedSatellite);
+  const points = generateOrbitPoints(selectedSatellite, specificTime);
 
-  return <Line points={points} color={"green"} />;
+  return <Line points={points} color={color} />;
 }

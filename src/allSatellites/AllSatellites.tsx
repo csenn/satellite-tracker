@@ -1,15 +1,17 @@
 import { EarthOrbit } from "../earthOrbit/EarthOrbit";
-import { getSatelliteLocations, ISatellite } from "../getSatelliteLocations";
+import { ISatellite } from "../getSatelliteLocations";
 import { Box } from "@mui/material";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { SatelliteSidebar } from "./satelliteSidebar/SatelliteSidebar";
 
-export function AllSatellites() {
+export function AllSatellites({
+  satelliteData,
+}: {
+  satelliteData: ISatellite[];
+}) {
   const [selectedSatellite, setSelectedSatellite] = useState<ISatellite | null>(
     null,
   );
-
-  const satelliteData = useMemo(() => getSatelliteLocations(), []);
 
   return (
     <Box

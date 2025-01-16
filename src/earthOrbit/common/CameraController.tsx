@@ -1,4 +1,4 @@
-import { useSatelliteStore } from "../store";
+import { useSatelliteStore } from "../../store";
 import { CameraControls } from "@react-three/drei";
 import { useEffect, useRef } from "react";
 

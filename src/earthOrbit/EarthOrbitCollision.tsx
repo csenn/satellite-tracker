@@ -1,22 +1,24 @@
 import { Canvas } from "@react-three/fiber";
-import { ICollision, ISatellite } from "../getSatelliteLocations";
-import { Earth } from "./Earth";
-import { EarthCoords } from "./EarthCoords";
+import { ISatellite } from "../getSatelliteLocations";
+import { Earth } from "./common/Earth";
+import { EarthCoords } from "./common/EarthCoords";
 import { CameraPanel } from "./CameraPanel";
 
-import { CameraController } from "./CameraController";
-import { SatelliteGroup } from "./selectedSatellite/SatelliteGroup";
+import { CameraController } from "./common/CameraController";
+import { HighlightedSatellite } from "./highlightedSatellite/HighlightedSatellite";
 
 // https://codesandbox.io/p/sandbox/sew669?file=%2Fsrc%2FApp.js%3A70%2C10-70%2C16
 
 type EarthOrbitCollisionProps = {
   satelliteOne: ISatellite | null;
   satelliteTwo: ISatellite | null;
+  specificTime?: Date;
 };
 
 export function EarthOrbitCollision({
   satelliteOne,
   satelliteTwo,
+  specificTime,
 }: EarthOrbitCollisionProps) {
   return (
     <>
@@ -36,8 +38,15 @@ export function EarthOrbitCollision({
         <ambientLight intensity={Math.PI / 2} />
         <Earth />
         <EarthCoords />
-        <SatelliteGroup satellite={satelliteOne} />
-        <SatelliteGroup satellite={satelliteTwo} />
+        <HighlightedSatellite
+          satellite={satelliteOne}
+          specificTime={specificTime}
+        />
+        <HighlightedSatellite
+          color="orange"
+          satellite={satelliteTwo}
+          specificTime={specificTime}
+        />
         <CameraController />
       </Canvas>
 

@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { useFrame, useLoader } from "@react-three/fiber";
 import { Mesh, TextureLoader } from "three";
-import EarthMapJpg from "../assets/earth-realistic-8k.webp";
+import EarthMapJpg from "../../assets/earth-realistic-8k.webp";
 import * as THREE from "three";
 export const EARTH_RADIUS = 6378; // Radius of the Earth in your 3D model units
 const EARTH_ROTATION_SPEED = (360 / 86164) * (Math.PI / 180); // Radians per second
