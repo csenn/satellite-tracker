@@ -33,20 +33,17 @@ export function CollisionsHeader() {
   ];
 
   const handleChange = (event: Event, newValue: number | number[]) => {
-    console.log("newValue", newValue);
-
     const nextTime =
       collisionTimeBefore + ((newValue as number) / 100) * timeDifference;
 
     setCollisionTime(new Date(nextTime));
-    // setValue(newValue as number);
   };
 
   const value =
     ((collisionTime.getTime() - collisionTimeBefore) / timeDifference) * 100;
 
   return (
-    <Box sx={{ width: "65%", paddingRight: "80px" }}>
+    <Box sx={{ width: "65%", paddingRight: "80px", paddingLeft: "80px" }}>
       <Slider
         value={value}
         onChange={handleChange}

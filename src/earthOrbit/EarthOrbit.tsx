@@ -1,11 +1,11 @@
 import { Canvas } from "@react-three/fiber";
-import { ISatellite } from "../utils/getSatelliteLocations";
 import { Earth } from "./common/Earth";
 import { EarthCoords } from "./common/EarthCoords";
 import { SatellitesPointsCloud } from "./SatellitePointCloud";
 import { CameraPanel } from "./CameraPanel";
 import { CameraController } from "./common/CameraController";
 import { HighlightedSatellite } from "./highlightedSatellite/HighlightedSatellite";
+import { ISatellite } from "../utils/loadData";
 
 // https://codesandbox.io/p/sandbox/sew669?file=%2Fsrc%2FApp.js%3A70%2C10-70%2C16
 

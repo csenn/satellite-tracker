@@ -17,13 +17,9 @@ type SatelliteListProps = {
 };
 
 export function CollisionList({
-  // satellites,
   collisionData,
   onClickCollision,
-  selectedCollision,
   satelliteLookup,
-  // onClickSatellite,
-  // satelliteData,
 }: SatelliteListProps) {
   const { setCameraPosition, setCollisionTime } = useSatelliteStore();
 
