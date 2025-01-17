@@ -25,7 +25,7 @@ export function CollisionList({
   // onClickSatellite,
   // satelliteData,
 }: SatelliteListProps) {
-  const { setCameraPosition } = useSatelliteStore();
+  const { setCameraPosition, setCollisionTime } = useSatelliteStore();
 
   const onSelectCollision = (collision: ICollision) => {
     onClickCollision(collision);
@@ -41,6 +41,7 @@ export function CollisionList({
 
     const { position } = positionAndVelocity;
 
+    setCollisionTime(collision.collisionDate);
     setCameraPosition(scaleVector(convertEciVecToThreeVec(position)));
   };
 

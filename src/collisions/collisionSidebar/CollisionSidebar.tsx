@@ -7,10 +7,6 @@ type CollisionSidebarProps = {
   onClickCollision: (collision: ICollision | null) => void;
   collisionData: ICollision[];
   satelliteLookup: Record<string, ISatellite>;
-  satelliteOne: ISatellite | null;
-  satelliteTwo: ISatellite | null;
-  // onClickSatellite: (satellite: ISatellite | null) => void;
-  // satelliteData: ISatellite[];
 };
 
 export function CollisionSidebar({
@@ -18,8 +14,6 @@ export function CollisionSidebar({
   collisionData,
   onClickCollision,
   satelliteLookup,
-  satelliteOne,
-  satelliteTwo,
 }: CollisionSidebarProps) {
   if (!selectedCollision) {
     return (

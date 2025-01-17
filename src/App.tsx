@@ -5,6 +5,7 @@ import { useMemo, useState } from "react";
 import { Collisions } from "./collisions/Collisions";
 import { getSatelliteLocations } from "./utils/loadData";
 import { AllSatellitesHeader } from "./allSatellites/AllSatellitesHeader";
+import { CollisionsHeader } from "./collisions/CollisionsHeader";
 
 function Tab({
   label,
@@ -55,7 +56,9 @@ function App() {
           justifyContent: "space-between",
         }}
       >
-        <Box sx={{ padding: "10px", display: "flex", gap: "10px" }}>
+        <Box
+          sx={{ padding: "10px", display: "flex", gap: "10px", width: "330px" }}
+        >
           <Tab
             label="All Satellite Data"
             selected={selectedTab === "allData"}
@@ -68,7 +71,8 @@ function App() {
           />
         </Box>
 
-        <Box>{selectedTab === "allData" && <AllSatellitesHeader />}</Box>
+        {selectedTab === "allData" && <AllSatellitesHeader />}
+        {selectedTab === "collisions" && <CollisionsHeader />}
       </Box>
       {selectedTab === "allData" && (
         <AllSatellites satelliteData={satelliteData} />

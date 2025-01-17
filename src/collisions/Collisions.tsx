@@ -1,13 +1,13 @@
 import { Box } from "@mui/material";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { EarthOrbitCollision } from "../earthOrbit/EarthOrbitCollision";
 import { CollisionSidebar } from "./collisionSidebar/CollisionSidebar";
-import { getCollisions, ICollision, ISatellite } from "../utils/loadData";
+import { getCollisions, ISatellite } from "../utils/loadData";
+import { useSatelliteStore } from "../utils/store";
 
 export function Collisions({ satelliteData }: { satelliteData: ISatellite[] }) {
-  const [selectedCollision, setSelectedCollision] = useState<ICollision | null>(
-    null,
-  );
+  const { collisionTime, selectedCollision, setSelectedCollision } =
+    useSatelliteStore();
 
   const satelliteLookup = useMemo(() => {
     if (!satelliteData) {
@@ -59,7 +59,7 @@ export function Collisions({ satelliteData }: { satelliteData: ISatellite[] }) {
         <EarthOrbitCollision
           satelliteOne={satelliteOne}
           satelliteTwo={satelliteTwo}
-          specificTime={selectedCollision?.collisionDate}
+          specificTime={collisionTime || undefined}
         />
       </Box>
     </Box>

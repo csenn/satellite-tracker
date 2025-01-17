@@ -1,15 +1,12 @@
 import { useFrame } from "@react-three/fiber";
 import {
   convertEciVecToThreeVec,
-  getSatelliteLatLonAlt,
   getSatellitePosition,
-  getSatellitePositionAtCurrentTime,
 } from "../../utils/calcUtils";
 import { ISatellite } from "../../utils/loadData";
 import { Vector3 } from "three";
 import { Line } from "@react-three/drei";
 import { useState } from "react";
-import { EARTH_RADIUS, TILT_ANGLE } from "../common/Earth";
 import { getSimulatedTime } from "../../utils/timeSimulator";
 
 type SatelliteSightLineProps = {
